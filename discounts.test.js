@@ -17,4 +17,12 @@ assert.strictEqual(none.finalCents, 5000);
 const unknown = applyDiscounts(5000, ['NOT_REAL']);
 assert.strictEqual(unknown.finalCents, 5000);
 
+// New: two-code stacking should be additive not compounded
+const stacked = applyDiscounts(20000, ['SAVE20', 'SAVE30']) //$200 cart
+assert.strictEqual(stacked.totalOffCents, 10000, 'SAVE20 + SAVE30 should be $100.00 off (50%)' )
+
+//New: total stacked discount should be capped at 90%
+const capped = applyDiscounts(20000, ['SAVE20', 'SAVE30', 'SAVE40', 'SAVE25']) //sum to 115%
+assert.strictEqual(capped.totalOffCents, 18000, 'Four codes should be capped at $180.00')
+
 console.log('PASS: discount smoke tests (does not cover multi-code stacking).');

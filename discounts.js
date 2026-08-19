@@ -17,16 +17,15 @@ function applyDiscounts(subtotalCents, codes) {
   // total instead of summing percentages against the original subtotal.
   // SAVE20 + SAVE30 on $200 should be 50% off ($100 off), but compounding
   // gives 1 * 0.80 * 0.70 = 0.56 remaining -> only 44% off.
-  let remaining = subtotalCents;
+  let pctSum = 0;
   for (const code of codes) {
     const pct = CODES[code];
     if (pct == null) continue;
-    remaining = Math.round(remaining * (1 - pct));
+    pctSum += pct;
   }
+  pctSum = Math.min(pctSum, 0.90);
 
-  // BUG: no cap at all on total discount -- stacking enough codes can
-  // discount well past what should ever be allowed.
-  const totalOffCents = subtotalCents - remaining;
+  const totalOffCents = Math.round(subtotalCents * pctSum);
 
   return {
     subtotalCents,
