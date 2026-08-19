@@ -1,0 +1,10 @@
+{
+  "name": "discount-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo checkout discount module with a seeded compounding-stack bug, for Project Thor Task 66.",
+  "main": "discounts.js",
+  "scripts": {
+    "test": "node discounts.test.js"
+  }
+}
